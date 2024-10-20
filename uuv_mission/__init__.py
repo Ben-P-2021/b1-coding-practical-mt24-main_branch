@@ -1,3 +1,4 @@
 from .dynamic import Submarine
 from .dynamic import ClosedLoop
-__all__=['Submarine','ClosedLoop']
+from .dynamic import Mission
+__all__=['Submarine','ClosedLoop','Mission']
