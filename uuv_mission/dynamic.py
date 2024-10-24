@@ -76,14 +76,20 @@ class Mission:
 
     @classmethod
     def from_csv(cls, file_name: str):
-        # You are required to implement this method
-        # returns an instance of the Mission class by extracting data from the mission.csv file. 
+        # Read the CSV file and import into a DataFrame
         datatable = pd.read_csv(file_name)
+        
+        # Extract the 'reference' column and convert it to a NumPy array
         reference = datatable['reference'].to_numpy()
+        
+        # Extract the 'cave_height' column and convert it to a NumPy array
         cave_height = datatable['cave_height'].to_numpy()
+        
+        # Extract the 'cave_depth' column and convert it to a NumPy array
         cave_depth = datatable['cave_depth'].to_numpy()
+        
+        # Return an instance of the class with the extracted data
         return cls(reference, cave_height, cave_depth)
-        pass
 
 
 class ClosedLoop:
@@ -105,7 +111,9 @@ class ClosedLoop:
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
             # Call your controller here
+            # Compute the control action based on the current reference and observation
             actions[t] = self.controller.control(mission.reference[t], observation_t)
+            # Update the state of the plant (submarine) with the computed action and current disturbance
             self.plant.transition(actions[t], disturbances[t])
 
         return Trajectory(positions)
